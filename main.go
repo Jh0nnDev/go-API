@@ -26,6 +26,7 @@ func main() {
 	r.GET("/tarefas", buscarTarefas) //captura a requisição do JSON
 	r.POST("/tarefas", criarTarefas)
 	r.PUT("/tarefas", attTarefas)
+	r.DELETE("/tarefas", deletarTarefas)
 	r.Run(":8081")
 }
 
@@ -50,5 +51,13 @@ func attTarefas(c *gin.Context) {
 	db.Save(&Tarefa{
 		ID:           tarefa.ID,
 		TituloTarefa: tarefa.TituloTarefa,
+	})
+}
+
+func deletarTarefas(c *gin.Context) {
+	var tarefa Tarefa
+	c.ShouldBindJSON(&tarefa)
+	db.Delete(&Tarefa{
+		ID: tarefa.ID,
 	})
 }
