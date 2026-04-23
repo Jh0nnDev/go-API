@@ -25,6 +25,7 @@ func main() {
 
 	r.GET("/tarefas", buscarTarefas) //captura a requisição do JSON
 	r.POST("/tarefas", criarTarefas)
+	r.PUT("/tarefas", attTarefas)
 	r.Run(":8081")
 }
 
@@ -38,6 +39,15 @@ func criarTarefas(c *gin.Context) {
 	var tarefa Tarefa
 	c.ShouldBindJSON(&tarefa)
 	db.Create(&Tarefa{
+		ID:           tarefa.ID,
+		TituloTarefa: tarefa.TituloTarefa,
+	})
+}
+
+func attTarefas(c *gin.Context) {
+	var tarefa Tarefa
+	c.ShouldBindJSON(&tarefa)
+	db.Save(&Tarefa{
 		ID:           tarefa.ID,
 		TituloTarefa: tarefa.TituloTarefa,
 	})
